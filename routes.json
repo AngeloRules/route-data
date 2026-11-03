@@ -1,28 +1,89 @@
 {
   "timezone": "Africa/Lagos",
-  "origin": {"lat": 6.451730, "lng": 3.408114, "heading": 185, "label": "E1 just before the Obalende off-ramp"},
-  "destination": {"lat": 6.442222, "lng": 3.426470, "label": "Falomo Bridge entrance"},
+  "origin": {
+    "lat": 6.45327,
+    "lng": 3.40844,
+    "heading": 185,
+    "label": "E1 southbound, just before the Obalende off-ramp splits"
+  },
+  "destination": {
+    "lat": 6.442222,
+    "lng": 3.42647,
+    "label": "Falomo Bridge entrance",
+    "heading": 211
+  },
   "drift_tolerance": 0.05,
   "routes": {
     "A": {
       "name": "Route A: Obalende exit, Ikoyi Road, Ikoyi Club, Alfred Rewane",
-      "traced_length_m": 4302,
+      "traced_length_m": 4477,
       "waypoints": [
-        {"lat": 6.449397, "lng": 3.407370, "note": "under the E1"},
-        {"lat": 6.451457, "lng": 3.414482, "note": "Ikoyi Road"},
-        {"lat": 6.450262, "lng": 3.425191, "note": "turn towards Ikoyi Club"},
-        {"lat": 6.451858, "lng": 3.429902, "note": "corner joining Alfred Rewane"},
-        {"lat": 6.448680, "lng": 3.428791, "note": "Alfred Rewane southbound"}
+        {
+          "lat": 6.449397,
+          "lng": 3.40737,
+          "note": "under the E1",
+          "heading": 123
+        },
+        {
+          "lat": 6.451457,
+          "lng": 3.414482,
+          "note": "Ikoyi Road",
+          "heading": 104
+        },
+        {
+          "lat": 6.450262,
+          "lng": 3.425191,
+          "note": "turn towards Ikoyi Club",
+          "heading": 23
+        },
+        {
+          "lat": 6.451858,
+          "lng": 3.429902,
+          "note": "corner joining Alfred Rewane",
+          "heading": 199
+        },
+        {
+          "lat": 6.44868,
+          "lng": 3.428791,
+          "note": "Alfred Rewane southbound",
+          "heading": 199
+        }
       ]
     },
     "B": {
       "name": "Route B: E1 to Onikan, round the roundabout, Awolowo Road",
-      "traced_length_m": 4104,
+      "traced_length_m": 4279,
       "waypoints": [
-        {"lat": 6.447313, "lng": 3.407357, "note": "E1 between Obalende and Onikan"},
-        {"lat": 6.443656, "lng": 3.403736, "note": "far side of Onikan roundabout"},
-        {"lat": 6.443574, "lng": 3.409663, "note": "Awolowo Road"},
-        {"lat": 6.441853, "lng": 3.416651, "note": "Awolowo Road, further east"}
+        {
+          "lat": 6.447313,
+          "lng": 3.407357,
+          "note": "E1 between Obalende and Onikan",
+          "heading": 192
+        },
+        {
+          "lat": 6.443656,
+          "lng": 3.403736,
+          "note": "far side of Onikan roundabout",
+          "heading": 214
+        },
+        {
+          "lat": 6.443574,
+          "lng": 3.409663,
+          "note": "Awolowo Road",
+          "heading": 110
+        },
+        {
+          "lat": 6.441853,
+          "lng": 3.416651,
+          "note": "Awolowo Road, further east",
+          "heading": 81
+        },
+        {
+          "lat": 6.443808,
+          "lng": 3.426991,
+          "note": "Falomo roundabout exit onto the bridge",
+          "heading": 190
+        }
       ]
     }
   }

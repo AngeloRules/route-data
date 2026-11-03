@@ -49,7 +49,6 @@ MAPBOX_URL = "https://api.mapbox.com/directions/v5/mapbox/driving-traffic/"
 def mapbox_request(route, token):
     pts = points(route)
     coords = ";".join(f"{p['lng']:.6f},{p['lat']:.6f}" for p in pts)
-    heading = CONFIG["origin"].get("heading")
     params = {
         # Only the first and last points are stops; the rest are silent pass-through points.
         "waypoints": f"0;{len(pts) - 1}",
@@ -59,9 +58,8 @@ def mapbox_request(route, token):
         "alternatives": "false",
         "access_token": token,
     }
-    if heading is not None:
-        # Start on the southbound carriageway of the E1.
-        params["bearings"] = f"{heading},45" + ";" * (len(pts) - 1)
+    # Direction of travel at each point, so it snaps to the correct side of a dual carriageway.
+    params["bearings"] = ";".join(f"{q['heading']},45" if q.get("heading") is not None else "" for q in pts)
     return MAPBOX_URL + coords + "?" + urllib.parse.urlencode(params, safe=";,")
 
 
@@ -95,8 +93,8 @@ def google_body(route):
 
     return {
         "origin": loc(CONFIG["origin"], CONFIG["origin"].get("heading")),
-        "destination": loc(CONFIG["destination"]),
-        "intermediates": [{"via": True, **loc(w)} for w in route["waypoints"]],
+        "destination": loc(CONFIG["destination"], CONFIG["destination"].get("heading")),
+        "intermediates": [{"via": True, **loc(w, w.get("heading"))} for w in route["waypoints"]],
         "travelMode": "DRIVE",
         "routingPreference": "TRAFFIC_AWARE_OPTIMAL",
         "computeAlternativeRoutes": False,
