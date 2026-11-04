@@ -2,13 +2,18 @@ name: Collect route travel times
 
 on:
   schedule:
-    # Lagos is UTC+1 all year (no daylight saving). Off-the-hour minutes avoid GitHub's busiest slots.
-    # Every 20 minutes from 05:07 to 21:47 Lagos time (04:07-20:47 UTC): 51 runs.
-    - cron: "7,27,47 4-20 * * *"
-    # Hourly overnight, 22:07 to 04:07 Lagos time (21:07-03:07 UTC): 7 runs.
+    # Lagos is UTC+1 all year (no daylight saving), so UTC hour = Lagos hour - 1.
+    # Off-the-hour minutes avoid GitHub's busiest scheduling slots.
+    # Weekday morning rush, every 10 minutes, 06:02 to 09:52 Lagos time: 24 runs.
+    - cron: "2,12,22,32,42,52 5-8 * * 1-5"
+    # Weekend mornings, every 20 minutes, 06:07 to 09:47 Lagos time: 12 runs.
+    - cron: "7,27,47 5-8 * * 0,6"
+    # Rest of the day, every 20 minutes, 05:07-05:47 and 10:07-21:47 Lagos time: 39 runs.
+    - cron: "7,27,47 4,9-20 * * *"
+    # Overnight, hourly, 22:07 to 04:07 Lagos time: 7 runs.
     - cron: "7 21-23,0-3 * * *"
-    # 58 runs a day x 2 routes = about 3,600 requests in a 31-day month,
-    # under Mapbox's 10,000 card-free trial Directions requests (and Google's 5,000 free).
+    # Weekday 70 runs, weekend day 58 runs; 2 requests per run.
+    # About 4,150 requests in a 31-day month, under Mapbox's 10,000-request trial cap.
   workflow_dispatch: {}
 
 permissions:
