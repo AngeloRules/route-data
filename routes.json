@@ -6,17 +6,11 @@
     "heading": 185,
     "label": "E1 southbound, just before the Obalende off-ramp splits"
   },
-  "destination": {
-    "lat": 6.442222,
-    "lng": 3.42647,
-    "label": "Falomo Bridge entrance",
-    "heading": 211
-  },
   "drift_tolerance": 0.05,
   "routes": {
     "A": {
       "name": "Route A: Obalende exit, Ikoyi Road, Ikoyi Club, Alfred Rewane",
-      "traced_length_m": 4477,
+      "traced_length_m": 4093,
       "waypoints": [
         {
           "lat": 6.449397,
@@ -48,11 +42,17 @@
           "note": "Alfred Rewane southbound",
           "heading": 199
         }
-      ]
+      ],
+      "destination": {
+        "lat": 6.445457,
+        "lng": 3.42768,
+        "heading": 198,
+        "label": "Alfred Rewane southbound, ~150 m before Falomo roundabout"
+      }
     },
     "B": {
       "name": "Route B: E1 to Onikan, round the roundabout, Awolowo Road",
-      "traced_length_m": 4279,
+      "traced_length_m": 3907,
       "waypoints": [
         {
           "lat": 6.447313,
@@ -67,24 +67,27 @@
           "heading": 214
         },
         {
-          "lat": 6.443574,
-          "lng": 3.409663,
-          "note": "Awolowo Road",
-          "heading": 110
+          "lat": 6.443589,
+          "lng": 3.409515,
+          "heading": 108,
+          "radius": 10,
+          "note": "Awolowo Road, eastbound carriageway"
         },
         {
-          "lat": 6.441853,
-          "lng": 3.416651,
-          "note": "Awolowo Road, further east",
-          "heading": 81
-        },
-        {
-          "lat": 6.443808,
-          "lng": 3.426991,
-          "note": "Falomo roundabout exit onto the bridge",
-          "heading": 190
+          "lat": 6.441792,
+          "lng": 3.416582,
+          "heading": 81,
+          "radius": 10,
+          "note": "Awolowo Road further east, eastbound carriageway"
         }
-      ]
+      ],
+      "destination": {
+        "lat": 6.444444,
+        "lng": 3.425867,
+        "heading": 87,
+        "label": "Awolowo Road eastbound, ~150 m before Falomo roundabout"
+      }
     }
-  }
+  },
+  "note": "Mapbox's map has no turn from Awolowo Road onto Falomo Bridge, so both routes end about 150 m before Falomo roundabout instead of on the bridge."
 }

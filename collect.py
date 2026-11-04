@@ -38,8 +38,13 @@ COLUMNS = [
 ]
 
 
+def destination(route):
+    # Each route may have its own end point; fall back to a shared one.
+    return route.get("destination") or CONFIG["destination"]
+
+
 def points(route):
-    return [CONFIG["origin"], *route["waypoints"], CONFIG["destination"]]
+    return [CONFIG["origin"], *route["waypoints"], destination(route)]
 
 
 # ---------- Mapbox ----------
@@ -60,6 +65,8 @@ def mapbox_request(route, token):
     }
     # Direction of travel at each point, so it snaps to the correct side of a dual carriageway.
     params["bearings"] = ";".join(f"{q['heading']},45" if q.get("heading") is not None else "" for q in pts)
+    # Max snapping distance per point, so a point can't jump to the opposite carriageway.
+    params["radiuses"] = ";".join(str(q["radius"]) if q.get("radius") else "unlimited" for q in pts)
     return MAPBOX_URL + coords + "?" + urllib.parse.urlencode(params, safe=";,")
 
 
@@ -93,7 +100,7 @@ def google_body(route):
 
     return {
         "origin": loc(CONFIG["origin"], CONFIG["origin"].get("heading")),
-        "destination": loc(CONFIG["destination"], CONFIG["destination"].get("heading")),
+        "destination": loc(destination(route), destination(route).get("heading")),
         "intermediates": [{"via": True, **loc(w, w.get("heading"))} for w in route["waypoints"]],
         "travelMode": "DRIVE",
         "routingPreference": "TRAFFIC_AWARE_OPTIMAL",

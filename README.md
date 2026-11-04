@@ -1,9 +1,11 @@
 # Obalende → Falomo route timing study
 
-Logs live, traffic-aware travel times (Mapbox Directions API, `driving-traffic` profile) for two driving routes from the Obalende exit on the E1 to the Falomo Bridge entrance, so the routes can be compared with hypothesis tests.
+Logs live, traffic-aware travel times (Mapbox Directions API, `driving-traffic` profile) for two driving routes from the E1 just before the Obalende exit to Falomo roundabout, so the routes can be compared with hypothesis tests.
 
-- **Route A**: Obalende off-ramp, under the E1, Ikoyi Road, round Ikoyi Club, down Alfred Rewane (traced 4.30 km)
-- **Route B**: stay on the E1 to Onikan, round the roundabout, along Awolowo Road (traced 4.10 km)
+- **Route A**: Obalende off-ramp, under the E1, Ikoyi Road, round Ikoyi Club, down Alfred Rewane, ending about 150 m before Falomo roundabout (traced 4.09 km)
+- **Route B**: stay on the E1 to Onikan, round the roundabout, along Awolowo Road, ending about 150 m before Falomo roundabout (traced 3.91 km)
+
+**Why the routes stop short of the bridge:** Mapbox's road map has no turn from Awolowo Road onto Falomo Bridge, so it sent Route B up Alfred Rewane to U-turn. Both routes now end about 150 m before the roundabout, on their own approach roads. The last stretch through the roundabout onto the bridge isn't measured for either route. Route B's turn through the roundabout probably takes a little longer in reality than Route A's entry from Alfred Rewane, so this slightly favours Route B. Mention that in the write-up.
 
 ## How the data supports the tests
 
