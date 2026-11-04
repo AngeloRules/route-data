@@ -10,7 +10,7 @@ Logs live, traffic-aware travel times (Mapbox Directions API, `driving-traffic` 
 ## How the data supports the tests
 
 - **Paired observations.** Every run requests both routes a few seconds apart and gives both rows the same `run_id`. Each run is one matched pair: the same traffic moment measured on both routes. Pair on `run_id` and test the per-run difference (A − B), with a paired t-test or a Wilcoxon signed-rank test.
-- **All-day coverage.** Runs every 20 minutes from 05:07 to 21:47 Lagos time, and hourly overnight. Night is sampled more thinly than day, so for the all-day test either weight runs by hour or compare hour-by-hour.
+- **All-day coverage.** Runs every 20 minutes from 05:00 to 22:00 Lagos time, every 10 minutes during the weekday morning rush (06:00–10:00), and hourly overnight. Sampling density varies by time of day, so for the all-day test either weight runs by hour or compare hour-by-hour.
 - **Morning rush.** Filter by `hour_local` / `minute_local` and `is_weekend`. The rush window is defined at analysis time, not at collection, so you can try different windows on the same data.
 - **Repeated measures.** Runs on the same day are not independent of each other. For a stricter test, average the A − B difference per day (or per day and hour) before testing.
 
@@ -35,11 +35,23 @@ Run it locally with `MAPBOX_TOKEN=... python collect.py`. To print the exact req
 
 If you get a card Google Cloud accepts, add a `GOOGLE_MAPS_API_KEY` secret and change `ROUTE_PROVIDER` in `.github/workflows/collect.yml` to `google`. Every row records its `provider`. Analyse each provider separately, because their traffic models differ.
 
+## How runs are scheduled
+
+GitHub's built-in scheduler often starts runs late or skips them. So the workflow doesn't rely on it to start each collection. Instead:
+
+- Each job stays alive for about 5.7 hours. `scheduler.py` sleeps until each sampling slot, runs `collect.py`, then commits and pushes the new rows.
+- The workflow is triggered every hour (at :13) as a **watchdog**. While a job is running, the next trigger waits in line behind it, and takes over the moment the current job ends. Each new trigger replaces the one waiting in line, so **cancelled runs in the Actions tab are normal**.
+- Sampling slots (Lagos time) are defined in `scheduler.py`: every 10 minutes on weekday mornings from 06:00 to 10:00, every 20 minutes from 05:00 to 22:00 otherwise, and hourly overnight.
+
+**The repository must be public.** A job is running around the clock, which is free on public repositories but would use up a private repository's monthly Actions minutes within a day or two. Run it only for the length of the study: to stop it, disable the workflow under Actions → "Collect route travel times" → ⋯ → Disable workflow.
+
+To start collecting right away instead of waiting for the next watchdog trigger, go to Actions → "Collect route travel times" → Run workflow.
+
 ## Budget
 
-58 runs a day × 2 routes ≈ 3,600 requests in a 31-day month. That fits under Mapbox's 10,000-request trial cap, and under Google's 5,000 free requests if you switch. Manual runs count toward this as well.
+Weekdays get 70 runs and weekend days 58, at 2 requests per run. That's about 4,150 requests in a 31-day month, under Mapbox's 10,000-request trial cap. Manual runs count toward this as well.
 
-GitHub's scheduler sometimes starts runs a few minutes late or skips one at busy times. Every row records its actual time, so this doesn't affect the analysis.
+Each run records its actual time, so a late or missed run doesn't affect the analysis. It only reduces the sample size.
 
 ## Data: `data/observations.csv`
 
